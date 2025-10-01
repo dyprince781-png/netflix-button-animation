@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Netflix Button Animation (HTML + CSS)</title>
+  <style>
+    :root{
+      --bg:#0f0f10;
+      --red-1:#e50914; /* Netflix red */
+      --red-2:#b50b10;
+      --glass: rgba(255,255,255,0.04);
+    }html,body{height:100%;}
+body{
+  margin:0;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(180deg,var(--bg) 0%, #0b0b0b 100%);
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Container for demo */
+.demo-wrap{
+  text-align:center;
+  padding:32px;
+}
+
+h1{font-weight:600; letter-spacing:1px; margin-bottom:18px;}
+p{opacity:0.6; margin:0 0 28px;}
+
+/* Netflix-like pill button */
+.netflix-btn{
+  --pad-x:34px;
+  --pad-y:14px;
+  display:inline-grid;
+  grid-auto-flow:column;
+  grid-auto-columns:auto;
+  align-items:center;
+  gap:14px;
+
+  position:relative;
+  padding:var(--pad-y) var(--pad-x);
+  border-radius:999px;
+  background:linear-gradient(180deg,var(--red-1), var(--red-2));
+  box-shadow:0 8px 30px rgba(229,9,20,0.25), inset 0 -6px 18px rgba(0,0,0,0.25);
+  color:#fff;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:18px;
+  text-decoration:none;
+  cursor:pointer;
+  border:0;
+  outline:0;
+  transition:transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* subtle pop on hover / active */
+.netflix-btn:hover{ transform:translateY(-4px); box-shadow:0 14px 40px rgba(229,9,20,0.28); }
+.netflix-btn:active{ transform:translateY(-1px) scale(0.995);} 
+
+/* shine sweep */
+.netflix-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:999px;
+  pointer-events:none;
+  background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.15) 55%, transparent 100%);
+  transform:translateX(-120%);
+  transition:transform 600ms cubic-bezier(.2,.9,.3,1);
+  mix-blend-mode:overlay;
+}
+.netflix-btn:hover::after{ transform:translateX(120%);} 
+
+/* pulsing outer glow */
+.netflix-btn::before{
+  content:"";
+  position:absolute;
+  left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  width:110%; height:110%;
+  border-radius:999px;
+  background:radial-gradient(ellipse at center, rgba(229,9,20,0.18) 0%, rgba(229,9,20,0.06) 30%, transparent 60%);
+  filter:blur(12px);
+  opacity:0;
+  transition:opacity 260ms;
+}
+.netflix-btn:hover::before{ opacity:1; }
+
+/* small play triangle that slides in on hover */
+.play-icon{
+  display:inline-block;
+  width:22px; height:22px;
+  border-radius:4px;
+  background:rgba(255,255,255,0.08);
+  display:grid; place-items:center;
+  transition:transform 360ms cubic-bezier(.2,.9,.3,1), background 220ms;
+}
+.play-icon svg{ width:12px; height:12px; transform:translateX(0); }
+
+.netflix-btn .label{
+  display:inline-block;
+  transform:translateX(0);
+  transition:transform 360ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* on hover the triangle grows and the label shifts */
+.netflix-btn:hover .play-icon{ transform:translateX(-6px) scale(1.05); background:rgba(255,255,255,0.12);} 
+.netflix-btn:hover .label{ transform:translateX(6px); }
+
+/* accessibility focus */
+.netflix-btn:focus-visible{ box-shadow:0 0 0 3px rgba(229,9,20,0.14), 0 12px 30px rgba(0,0,0,0.6); }
+
+/* small responsive tweak */
+@media (max-width:420px){
+  .netflix-btn{ font-size:15px; --pad-x:22px; gap:10px; }
+  .play-icon{ width:18px; height:18px; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="demo-wrap">
+    <h1>Netflix Button — CSS-only animation</h1>
+    <p>Hover or focus the button to see a shine, glow and play icon motion. No JavaScript required.</p><button class="netflix-btn" aria-label="Watch on Netflix">
+  <span class="play-icon" aria-hidden="true">
+    <!-- Small play triangle icon -->
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M8 5v14l11-7-11-7z" fill="#fff" opacity="0.95"></path>
+    </svg>
+  </span>
+  <span class="label">Watch on Netflix</span>
+</button>
+
+  </div>
+</body>
+  </html>
